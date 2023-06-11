@@ -1,0 +1,1 @@
+ $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers"   -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    /Users/Marc/volant_2017_code/Volant.X/source/StateMachine_Volant.c

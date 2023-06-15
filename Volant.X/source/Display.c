@@ -1,18 +1,26 @@
+/*
+ * Display.c
+ *
+ *  Created on: June 11, 2023
+ *      Author: Marc
+ */
 
+/* ******************************* Includes ********************************* */
 
 #include "ChinookLib.h"
 #include "Display.h"
 #include "main.h"
 
-// Defines
+/* ************************** Private definitions *************************** */
+
 #define MAX_REG_NOOP             0x00
 #define MAX_REG_DECODE_MODE      0x01
 #define MAX_REG_GLOBAL_INTENSITY 0x02
 #define MAX_REG_SCAN_LIMIT       0x03
 #define MAX_REG_CONFIGURATION    0x04
-#define MAX_REG_DISPLAY_TEST     0x05
+#define MAX_REG_GPIO_DATA        0x05
 #define MAX_REG_DIGIT_TYPE       0x06
-
+#define MAX_REG_DISPLAY_TEST     0x07
 
 #define MAX_REG_INTENSITY10      0x10
 #define MAX_REG_INTENSITY32      0x11
@@ -42,15 +50,17 @@
 #define DP_7SEG       0x80
 
 
-// Private variables and definitions
+/* ********************* Private variable declarations ********************** */
+
+// Display structure
 typedef struct
 {
-  UINT32 num_digits;
-  UINT32 _7seg_displays[4];
+  UINT32 num_digits;          // Number of digits in display
+  UINT32 _7seg_displays[4];   // 7-segment displays addresses
 } LedDisplay;
 LedDisplay display1, display2, display3;
 
-
+/* ********************* Private function declarations ********************** */
 
 void MAX_Init();
 void MAX_Write(UINT16 reg, UINT8 data);
@@ -60,40 +70,56 @@ void PrintFloatFixed(LedDisplay* display, float value);
 void PrintInt(LedDisplay* display, int value);
 void PrintDigits(LedDisplay* display, char digits[4], int decimal_location);
 
+/* ********************** Private function definitions ********************** */
 
-
-
+/**
+ * @brief     Initializes the display
+ * 
+ * @details   Sets all the proper values in the register of the MAX6954
+ */
 void MAX_Init()
 {
   // First 10 digits in decode mode and 11/12 digits in non-decode mode
   MAX_Write(MAX_REG_DECODE_MODE, 0x1F);
 
-  MAX_Write(MAX_REG_SCAN_LIMIT, 0x05); // Limits scanning to 12 digits
+  MAX_Write(MAX_REG_SCAN_LIMIT, 0x05);        // Limits scanning to 12 digits
   MAX_Write(MAX_REG_CONFIGURATION, 0x11);
-  MAX_Write(MAX_GLOBAL_INTENSITY, 0x07);
-  MAX_Write(MAX_DIGIT_TYPE, 0x00);
+  MAX_Write(MAX_REG_GLOBAL_INTENSITY, 0x07);
+  MAX_Write(MAX_REG_DIGIT_TYPE, 0x00);
 
   // TODO: 0x07 reg en define
-  MAX_Write(0x07, 0x01);
-  while (!flags.flag_500ms);
+  MAX_Write(MAX_REG_DISPLAY_TEST, 0x01);
+  while (!flags.flag_500ms);    // Write on 500 ms interrupt
   flags.flag_500ms = 0;
-  MAX_Write(0x07, 0x00);
+  MAX_Write(MAX_REG_DISPLAY_TEST, 0x00);
 }
 
-void MAX_Write()
+/**
+ * @brief     Writes a DATA to a register of the MAX6954 via SPI
+ * @param[in] REG   Register to write to
+ * @param[in] DATA  Data to write to the register
+ * 
+*/
+void MAX_Write(UINT16 REG, unsigned char DATA)
 {
+  // Data shifting (???)
   UINT16 data = (REG << 8 | DATA) << 1;
   
   while (SpiChnIsBusy(SPI3+1));
   SPI_CS = 0;
-
+  // Send data on SPI
   Spi.SendCharacter(SPI3, data);
   while (SpiChnIsBusy(SPI3+1));
 
   SPI_CS = 1;
 }
 
-
+/**
+ * @brief     Print a float on the 7seg display
+ * @param[in] display  The display to write to
+ * @param[in] value    The value to display
+ * 
+*/
 void PrintFloat(LedDisplay* display, float value)
 {
   float position = pow(10, (int)(log(value)/log(10.0f)));
@@ -126,6 +152,13 @@ void PrintFloat(LedDisplay* display, float value)
   PrintDigits(display, digits, decimal_position);
 }
 
+/**
+ * @brief     Print a float with a fixed decimal
+ * @param[in] display           The display to write to
+ * @param[in] value             The value to display
+ * @param[in] decimal_position  The position of the decimal
+ * 
+*/
 void PrintFloatFixed(LedDisplay* display, float value, int decimal_position)
 {
   if(value < 0)
@@ -152,6 +185,12 @@ void PrintFloatFixed(LedDisplay* display, float value, int decimal_position)
   PrintDigits(display, digits, decimal_position);
 }
 
+/**
+ * @brief     Print an integer on the 7seg display
+ * @param[in] display  The display to write to
+ * @param[in] value    The value to display
+ * 
+*/
 void PrintInt(LedDisplay* display, int value)
 {
   int neg = (value < 0) ? 1 : 0;
@@ -180,6 +219,13 @@ void PrintInt(LedDisplay* display, int value)
   PrintDigits(display, digits, 4);
 }
 
+/**
+ * @brief     Print an array of digits on the 7seg display
+ * @param[in] display           The display to write to
+ * @param[in] digits            The digits to display
+ * @param[in] decimal_location  The position of the decimal
+ * 
+*/
 void PrintDigits(LedDisplay* display, char digits[4], int decimal_location)
 {  
   int hadDigit = 0;
@@ -214,8 +260,12 @@ void PrintDigits(LedDisplay* display, char digits[4], int decimal_location)
   }
 }
 
+/* *********************** Public function definitions ********************** */
 
-
+/**
+ * @brief     Initialize the 7seg displays
+ * 
+*/
 void DisplayInit()
 {
   MAX_Init();
@@ -235,27 +285,12 @@ void DisplayInit()
   display3._7seg_displays[3] = 0x2C;
 }
 
-enum DISPLAY1_VALUES
-{
- MAST_ANGLE,
- WIND_SPEED,
- WHEEL_RPM,
- POWER
-};
-
-enum DISPLAY2_VALUES
-{
- EFFICIENCY
-};
-
-enum DISPLAY3_VALUES
-{
-  PITCH,
-  WIND_DIR,
-  TURB_RPM,
-  TSR
-};
-
+/**
+ * @brief     Display the data on the 7seg displays
+ * 
+ * @details   This function is called from the main loop, act as a refresh rate
+ * 
+*/
 void DisplayData()
 {
   switch (disp1)

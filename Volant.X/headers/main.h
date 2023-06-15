@@ -1,17 +1,25 @@
-
-
+/*
+ * main.h
+ *
+ *  Created on: June 11, 2023
+ *      Author: Marc
+ */
 
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
+/* ******************************* Includes ********************************* */
+
 #include "ChinookLib.h"
 
-// Defines
+
+/* ****************************** Definitions ******************************* */
 
 //==============================================================================
 // Define OUTPUT LED
 //==============================================================================
-#define LED_STATUS        LATBbits.LATB15       // LAT used for 
+
+#define LED_STATUS        LATBbits.LATB15                                       // LAT used for ??
 #define LED_ERROR         LATBbits.LATB14
 #define LED_CAN           LATBbits.LATB13
 #define LED_DEBG4         LATBbits.LATB12
@@ -23,6 +31,7 @@
 //==============================================================================
 // Define INPUT SWITCH
 //==============================================================================
+
 #define SW1               PORTEbits.RE0
 #define SW2               PORTEbits.RE1
 #define SW3               PORTEbits.RE3
@@ -39,13 +48,17 @@
 //==============================================================================
 // Define SPI PINOUT
 //==============================================================================
+
 #define SPI_CS          LATDbits.LATD0
 #define SPI_CLK         LATDbits.LATD1
 #define SPI_I           LATDbits.LATD2
 #define SPI_O           LATDbits.LATD3
 
-// Declarations
 
+
+/* ***************************** Declarations ******************************* */
+
+// Display 1 modes
 enum DISPLAY1_VALUES
 {
  MAST_ANGLE,
@@ -54,11 +67,13 @@ enum DISPLAY1_VALUES
  POWER
 };
 
+// Display 2 modes
 enum DISPLAY2_VALUES
 {
  EFFICIENCY
 };
 
+// Display 3 modes
 enum DISPLAY3_VALUES
 {
   PITCH,
@@ -68,8 +83,9 @@ enum DISPLAY3_VALUES
 };
 
 
-// Global variables
+/* *************************** Global variables ***************************** */
 
+// Flags struct
 typedef struct FlagsData_
 {
   UINT8 flag_50ms;
@@ -80,6 +96,7 @@ typedef struct FlagsData_
 FlagsData;
 extern volatile FlagsData flags;
 
+// Sensor data struct
 typedef struct SensorData_
 {
   INT8 gear;
@@ -100,16 +117,10 @@ typedef struct SensorData_
 SensorData;
 extern volatile SensorData sensor_data;
 
-
 // Displayed values mode
 extern volatile disp1;
 extern volatile disp2;
 extern volatile disp3;
-
-
-
-
-
 
 
 #endif // _MAIN_H_

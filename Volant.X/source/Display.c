@@ -63,10 +63,10 @@ LedDisplay display1, display2, display3;
 /* ********************* Private function declarations ********************** */
 
 void MAX_Init();
-void MAX_Write(UINT16 reg, UINT8 data);
+void MAX_Write(UINT16 REG, unsigned char DATA);
 
 void PrintFloat(LedDisplay* display, float value);
-void PrintFloatFixed(LedDisplay* display, float value);
+void PrintFloatFixed(LedDisplay* display, float value, int decimal_position);
 void PrintInt(LedDisplay* display, int value);
 void PrintDigits(LedDisplay* display, char digits[4], int decimal_location);
 
@@ -122,16 +122,16 @@ void MAX_Write(UINT16 REG, unsigned char DATA)
 */
 void PrintFloat(LedDisplay* display, float value)
 {
-  float position = powf(10, (logf(value)/logf(10.0f)));
+  float position = powf(10.0f, (logf(value)/logf(10.0f)));
   float valueToRemove = 0;
   int decimal_position = -1;
   int decimal_set = 0;
     
   // Store the digits in an array
-  char digits[display->numDigits];
+  char digits[display->num_digits];
     
   int i;
-  for(i = 0; i < display->numDigits; ++i)
+  for(i = 0; i < display->num_digits; ++i)
   {
     char digit = (int)((value - valueToRemove) / position);
             
@@ -169,9 +169,9 @@ void PrintFloatFixed(LedDisplay* display, float value, int decimal_position)
   float valueToRemove = 0;
     
   // Store the digits in an array
-  char digits[display->numDigits];
+  char digits[display->num_digits];
     
-  for(i = 0; i < display->numDigits; ++i)
+  for(i = 0; i < display->num_digits; ++i)
   {
     char digit = (char)((value - valueToRemove) / position);
     digits[i] = digit;
@@ -198,14 +198,14 @@ void PrintInt(LedDisplay* display, int value)
   {
     value *= -1;
   }
-  int position = pow((float)10, (float)display->numDigits-1);
+  int position = pow((float)10, (float)display->num_digits-1);
   int valueToRemove = 0;
     
   // Store the digits in an array
-  char digits[display->numDigits];
+  char digits[display->num_digits];
     
   int i = 0;
-  for(i; i < display->numDigits; ++i)
+  for(i; i < display->num_digits; ++i)
   {
     unsigned digit = ((unsigned)value - (unsigned)valueToRemove) / (unsigned)position;
     digits[i] = (char)digit;
@@ -231,7 +231,7 @@ void PrintDigits(LedDisplay* display, char digits[4], int decimal_location)
   int hadDigit = 0;
     
   int i = 0;
-  for(i = 0; i < display->numDigits; ++i)
+  for(i = 0; i < display->num_digits; ++i)
   {
     // Do not display leading zeros UNLESS its at position of the decimal place
     if(digits[i] == 255)
@@ -247,7 +247,7 @@ void PrintDigits(LedDisplay* display, char digits[4], int decimal_location)
     
     // Check for the decimal dot
     int decimal = 0;
-    if(decimal_location == i && i != display->numDigits-1 && decimal_location < display->numDigits-1)
+    if(decimal_location == i && i != display->num_digits-1 && decimal_location < display->num_digits-1)
     {
       decimal = DP_7SEG;
     }
@@ -270,15 +270,15 @@ void DisplayInit()
 {
   MAX_Init();
 
-  display1.numDigits = 4;
+  display1.num_digits = 4;
   display1._7seg_displays[0] = 0x20;
   display1._7seg_displays[1] = 0x28;
   display1._7seg_displays[2] = 0x21;
   display1._7seg_displays[3] = 0x29;
-  display2.numDigits = 2;
+  display2.num_digits = 2;
   display2._7seg_displays[0] = 0x22;
   display2._7seg_displays[1] = 0x2A;
-  display3.numDigits = 4;
+  display3.num_digits = 4;
   display3._7seg_displays[0] = 0x23;
   display3._7seg_displays[1] = 0x2B;
   display3._7seg_displays[2] = 0x24;

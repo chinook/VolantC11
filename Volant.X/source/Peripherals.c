@@ -144,7 +144,7 @@ void InitADC()
   Adc.Open(sampling_clock, config_hardware, config_port, config_scan);
 
   // Configure interrupts
-  Adc.ConfigInterrupts(ADC_INTERRUPT_PRIORITY, ADC_INTERRUPT_SUBPRIORITY);
+  Adc.ConfigInterrupt(ADC_INTERRUPT_PRIORITY, ADC_INTERRUPT_SUBPRIORITY);
 }
 
 /**

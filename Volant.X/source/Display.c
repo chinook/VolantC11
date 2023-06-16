@@ -309,6 +309,8 @@ void DisplayData()
     break;
 
   case POWER:
+    float power = sensor_data.wind_turbine_rpm * sensor_data.torque 
+                                                      * 2.0f * 3.14159f / 60.0f;
     PrintFloatFixed(&display1, power, 3); // POW.E
     break;
 
@@ -320,7 +322,7 @@ void DisplayData()
   switch (disp2)
   {
   case EFFICIENCY:
-    PrintFloatFixed(&display2, efficiency, 2); // EF.
+    // PrintFloatFixed(&display2, efficiency, 2); // EF.                        // TODO: Calculate efficiency
     break;
 
   default:
@@ -343,7 +345,7 @@ void DisplayData()
     break;
 
   case TSR:
-    PrintFloatFixed(&display3, tsr, 3); // TSR.x
+    // PrintFloatFixed(&display3, tsr, 3); // TSR.x                             // TODO: Calculate TSR
     break;
 
   default:

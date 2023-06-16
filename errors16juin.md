@@ -9,7 +9,7 @@
 `source/Display.c: In function 'PrintInt':`<br />
 `source/Display.c:201:18: warning: incompatible implicit declaration of built-in function 'pow' [enabled by default]`
 
-2. Initializer element is not constant (idk what this is)
+2. Initializer element is not constant (idk what this is) <br />
 `source/main.c:80:2: error: initializer element is not constant`<br />
 `SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW11, SW12`<br />
 `source/main.c:80:2: error: (near initialization for 'swi_to_sw[0]')`<br />

@@ -49,16 +49,18 @@ void CAN_SendFloat(UINT32 id, float data);
  * @param[in] id: CAN message ID
  * @param[in] data: int to send
  * 
+ * @details   This function does not exist in the ChinookLib
 */
-void CAN_SendInt(UINT32 id, INT32 data);
+// void CAN_SendInt(UINT32 id, INT32 data);
 
 /**
  * @brief     Sends an unsigned int on CAN
  * @param[in] id: CAN message ID
  * @param[in] data: unsigned int to send
  * 
+ * @details   This function does not exist in the ChinookLib
 */
-void CAN_SendUInt(UINT32 id, UINT32 data);
+// void CAN_SendUInt(UINT32 id, UINT32 data);
 
 /**
  * @brief     Sends a string on CAN

@@ -80,22 +80,24 @@ void CAN_SendFloat(UINT32 id, float data)
  * @param[in] id: CAN message ID
  * @param[in] data: int to send
  * 
+ * @details   This function does not exist in the ChinookLib
 */
-void CAN_SendInt(UINT32 id, INT32 data)
+/* void CAN_SendInt(UINT32 id, INT32 data)
 {
   Can.SendInt(CAN1, id, data);
-}
+} */
 
 /**
  * @brief     Sends an unsigned int on CAN
  * @param[in] id: CAN message ID
  * @param[in] data: unsigned int to send
  * 
+ * @details   This function does not exist in the ChinookLib
 */
-void CAN_SendUInt(UINT32 id, UINT32 data)
+/* void CAN_SendUInt(UINT32 id, UINT32 data)
 {
   Can.SendUInt(CAN1, id, data);
-}
+} */
 
 /**
  * @brief     Sends a string on CAN
@@ -149,7 +151,7 @@ UINT8 CAN_CheckChannel(UINT32 channel, UINT32 channel_event, UINT32* data)
  * 
  * @details   Handles CAN1 interrupts
 */
-void __attribute__((vector(_CAN_!_VECTOR), interrupt(ipl4auto), nomips16)) 
+void __attribute__((vector(_CAN_1_VECTOR), interrupt(ipl4auto), nomips16)) 
                                                       CAN1InterruptHandler(void)
 {
   if ((CANGetModuleEvent(CAN1) & CAN_RX_EVENT) != 0)

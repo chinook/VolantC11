@@ -122,7 +122,7 @@ void MAX_Write(UINT16 REG, unsigned char DATA)
 */
 void PrintFloat(LedDisplay* display, float value)
 {
-  float position = pow(10, (int)(log(value)/log(10.0f)));
+  float position = powf(10, (logf(value)/logf(10.0f)));
   float valueToRemove = 0;
   int decimal_position = -1;
   int decimal_set = 0;
@@ -163,7 +163,7 @@ void PrintFloatFixed(LedDisplay* display, float value, int decimal_position)
 {
   if(value < 0)
     value *= -1;
-  float position = pow(10.0f, (float)decimal_position);
+  float position = powf(10.0f, (float)decimal_position);
     
   int i;
   float valueToRemove = 0;

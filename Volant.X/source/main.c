@@ -290,7 +290,7 @@ void ProcessSwitches()
   // Mast stop
   if (!CheckSwitch(2) && !CheckSwitch(9))
   {
-    CAN_SendFloat(0x7B, 0.0f)
+    CAN_SendFloat(0x7B, 0.0f);
   }
 
   // ROPS
@@ -441,7 +441,8 @@ void main(void)
     // Execute the state machine
     state_machine_exec();
     
+    int i;  // Loop variable
     // Wait a bit
-    for (int i = 0; i < 2000; ++i);
+    for (i = 0; i < 2000; ++i);
   }
 }

@@ -293,6 +293,10 @@ void DisplayInit()
 */
 void DisplayData()
 {
+  float power = sensor_data.wind_turbine_rpm * sensor_data.torque * 2.0f * 3.14159f / 60.0f;
+  float efficiency = power / sensor_data.wind_speed;
+  float tsr = sensor_data.wind_turbine_rpm * 3.14159f * 0.5f / sensor_data.wind_speed;
+
   switch (disp1)
   {
   case MAST_ANGLE:
@@ -309,8 +313,6 @@ void DisplayData()
     break;
 
   case POWER:
-    float power = sensor_data.wind_turbine_rpm * sensor_data.torque 
-                                                      * 2.0f * 3.14159f / 60.0f;
     PrintFloatFixed(&display1, power, 3); // POW.E
     break;
 
@@ -322,7 +324,7 @@ void DisplayData()
   switch (disp2)
   {
   case EFFICIENCY:
-    // PrintFloatFixed(&display2, efficiency, 2); // EF.                        // TODO: Calculate efficiency
+    PrintFloatFixed(&display2, efficiency, 2); // EF.                           // TODO: Validate efficiency calculation
     break;
 
   default:
@@ -345,7 +347,7 @@ void DisplayData()
     break;
 
   case TSR:
-    // PrintFloatFixed(&display3, tsr, 3); // TSR.x                             // TODO: Calculate TSR
+    PrintFloatFixed(&display3, tsr, 3); // TSR.x                                // TODO: Validate TSR calculation
     break;
 
   default:

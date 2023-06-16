@@ -122,7 +122,7 @@ void InitADC()
 {
   // ADC configuration
   UINT32 sampling_clock = ADC_CLK_TMR;
-  UINt32 config_hardware = ADC_VREF_AVDD_AVSS | ADC_SAMPLES_PER_INT_1;
+  UINT32 config_hardware = ADC_VREF_AVDD_AVSS | ADC_SAMPLES_PER_INT_1;
   UINT32 config_port = ENABLE_AN2_ANA;
   UINT32 config_scan = SKIP_SCAN_AN0
                      | SKIP_SCAN_AN1

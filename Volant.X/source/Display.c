@@ -339,7 +339,7 @@ void DisplayData()
     break;
 
   case TURB_RPM:
-    PrintFloatFixed(&display3, sensor_data.turbine_rpm, 3); // TRP.M
+    PrintFloatFixed(&display3, sensor_data.wind_turbine_rpm, 3); // TRP.M
     break;
 
   case TSR:

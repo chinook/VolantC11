@@ -68,7 +68,7 @@ void CAN_SendFloat(UINT32 id, float data);
  * @param[in] data: string to send
  * 
 */
-void CAN_SendData(UINT32 id, UINT8 data[4]);    // TODO
+void CAN_SendData(UINT32 id, UINT64 data);
 
 
 

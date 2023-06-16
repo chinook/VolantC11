@@ -105,7 +105,7 @@ void CAN_SendFloat(UINT32 id, float data)
  * @param[in] data: string to send
  * 
 */
-void CAN_SendData(UINT32 id, UINT16 data[4])
+void CAN_SendData(UINT32 id, UINT64 data)
 {
   Can.SendData(CAN1, id, data);
 }
@@ -165,7 +165,7 @@ void __attribute__((vector(_CAN_1_VECTOR), interrupt(ipl4auto), nomips16))
       memcpy((void*)(&sensor_data.pitch), &data, 4);
 
     if (CAN_CheckChannel(CAN_CHANNEL3, CAN_CHANNEL3_EVENT, data))
-      memcpy((void*)(&sensor_data.mast_direction), &data, 4);
+      memcpy((void*)(&sensor_data.mast_dir), &data, 4);
 
     //if (CAN_CheckChannel(CAN_CHANNEL4, CAN_CHANNEL4_EVENT, &data))
       // sensor_data.mast_mode = (message->data[1] << 8) | message->data[0];
@@ -174,7 +174,7 @@ void __attribute__((vector(_CAN_1_VECTOR), interrupt(ipl4auto), nomips16))
       memcpy((void*)(&sensor_data.pitch_algo), &data, 4);
 
     if (CAN_CheckChannel(CAN_CHANNEL6, CAN_CHANNEL6_EVENT, data))
-      memcpy((void*)(&sensor_data.turbine_rpm), &data, 4);
+      memcpy((void*)(&sensor_data.wind_turbine_rpm), &data, 4);
 
     if (CAN_CheckChannel(CAN_CHANNEL7, CAN_CHANNEL7_EVENT, data))
       memcpy((void*)(&sensor_data.wind_speed), &data, 4);

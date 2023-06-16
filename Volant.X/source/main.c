@@ -77,7 +77,7 @@ SWITCH_DECL switches =
 // Array to convert switch number (1,2,3...) to switch name (PORTXbits.RXx...)
 UINT32 swi_to_sw[12] =
 {
- SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW11, SW12
+ SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW11, SW12                  // Error element not constant ???
 };
 
 /* ********************* Private variable declarations ********************** */
@@ -118,9 +118,10 @@ UINT8 mem_switches[12];
 UINT8 CheckSwitches()
 {
   UINT8 sw_changed;				// Flag to indicate if a switch has been pressed
+  int i;                  // Loop counter
 
   // Loop through all switches
-  for (int i = 0; i < 12; ++i)
+  for (i = 0; i < 12; ++i)
   {
 		// Read switch status
     UINT8 sw_status = PORTReadBits(switches.ports[i], switches.bits[i]);
@@ -191,6 +192,7 @@ UINT8 CheckSwitchPressedOnce(UINT32 sw)
   // aka If switch has been pressed once
   if (swi_to_sw[sw - 1] != 1 && mem_switches[sw])
   {
+    int i;  // Loop counter
     // Wait a delay to make sure switch has settled
     for(i = 0; i < 1000; ++i);
 
@@ -251,17 +253,20 @@ void ProcessSwitches()
   // Pitch left
   if (CheckSwitch(1))
   {
-    CAN_SendData(0x7A, 0x01);
+    static UINT64 pitch_left_data = 0x01;
+    CAN_SendData(0x7A, pitch_left_data);
   }
   // Pitch right
   if (CheckSwitch(10))
   {
-    CAN_SendData(0x7A, 0x200);
+    static UINT64 pitch_right_data = 0x200;
+    CAN_SendData(0x7A, pitch_right_data);
   }
   // Pitch stop
   if (!CheckSwitch(1) && !CheckSwitch(10))
   {
-    CAN_SendData(0x7A, 0x00);
+    static UINT64 pitch_stop_data = 0x00;
+    CAN_SendData(0x7A, pitch_stop_data);
   }
 
   // Mast Mode

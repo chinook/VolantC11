@@ -108,6 +108,13 @@
 
 #define CAN1_INTERRUPT_SUBPRIORITY       3           // Highest subpriority
 
+// Pitch and mast mode
+#define PITCH_MODE_MANUAL 0
+#define PITCH_MODE_AUTOMATIC 1
+
+#define MAST_MODE_MANUAL 0
+#define MAST_MODE_AUTOMATIC 1
+
 /* ***************************** Declarations ******************************* */
 
 // Display 1 modes

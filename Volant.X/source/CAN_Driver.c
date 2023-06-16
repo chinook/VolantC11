@@ -159,7 +159,7 @@ void __attribute__((vector(_CAN_1_VECTOR), interrupt(ipl4auto), nomips16))
     UINT32 data[2];
 
     if (CAN_CheckChannel(CAN_CHANNEL1, CAN_CHANNEL1_EVENT, data))
-      sensor_data.gear = (UINT8)data;
+      sensor_data.gear = (INT8)data;
 
     if (CAN_CheckChannel(CAN_CHANNEL2, CAN_CHANNEL2_EVENT, data))
       memcpy((void*)(&sensor_data.pitch), &data, 4);

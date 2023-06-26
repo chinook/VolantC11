@@ -10,6 +10,7 @@
 #include "ChinookLib.h"
 #include "Display.h"
 #include "main.h"
+#include "math.h"
 
 /* ************************** Private definitions *************************** */
 
@@ -89,8 +90,8 @@ void MAX_Init()
 
   // TODO: 0x07 reg en define
   MAX_Write(MAX_REG_DISPLAY_TEST, 0x01);
-  while (!flags.flag_500ms);    // Write on 500 ms interrupt
-  flags.flag_500ms = 0;
+  while (!flag_50ms);    // Write on 50 ms interrupt
+  flag_500ms = 0;
   MAX_Write(MAX_REG_DISPLAY_TEST, 0x00);
 }
 
@@ -163,7 +164,7 @@ void PrintFloatFixed(LedDisplay* display, float value, int decimal_position)
 {
   if(value < 0)
     value *= -1;
-  float position = powf(10.0f, (float)decimal_position);
+  float position = pow(10.0f, (float)decimal_position);
     
   int i;
   float valueToRemove = 0;
@@ -300,8 +301,8 @@ void DisplayData()
   switch (disp1)
   {
   case MAST_ANGLE:
-    // PrintFloatFixed(&display1, sensor_data.mast_angle, 3); // MAN.G
-    PrintFloatFixed(&display1, 0.0f, 0);
+    PrintFloatFixed(&display1, sensor_data.mast_angle, 1); // MAN.G
+    // PrintFloatFixed(&display1, 9.12f, 3);
     break;
 
   case WIND_SPEED:

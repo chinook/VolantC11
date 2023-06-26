@@ -1,5 +1,5 @@
-build/default/debug/source/Interrupts.o:  \
-source/Interrupts.c  \
+build/default/production/source/Display.o:  \
+source/Display.c  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookLib.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookHardwareProfile.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookAdc.h  \
@@ -15,4 +15,5 @@ source/Interrupts.c  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookUart.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookSpi.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookWdt.h  \
-headers/main.h 
+headers/Display.h  \
+ headers/main.h 

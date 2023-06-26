@@ -1,4 +1,4 @@
-/* 
+/*
  * main.c
  *
  *  Created on: June 11, 2023
@@ -25,9 +25,9 @@ void EnableInterrupts();
 
 void state_machine_exec();
 
-void state_init();
-void state_standby();
-void state_acq();
+UINT32 state_init();
+UINT32 state_standby();
+UINT32 state_acq();
 
 /* ************************** Private definitions *************************** */
 
@@ -75,10 +75,7 @@ SWITCH_DECL switches =
 };
 
 // Array to convert switch number (1,2,3...) to switch name (PORTXbits.RXx...)
-UINT32 swi_to_sw[12] =
-{
- SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW11, SW12                  // Error element not constant ???
-};
+// UINT32 swi_to_sw[12];
 
 /* ********************* Private variable declarations ********************** */
 
@@ -98,6 +95,19 @@ UINT32 state_machine_val;
 
 // Switches memory (last status)
 UINT8 mem_switches[12];
+UINT8 mem_switches_pressed[12];
+
+// volatile FlagsData flags;
+volatile UINT8 flag_500ms;
+volatile UINT8 flag_50ms;
+volatile UINT8 flag_can;
+volatile UINT8 flag_rotary_encoder;
+
+volatile SensorData sensor_data;
+
+volatile disp1;
+volatile disp2;
+volatile disp3;
 
 /* ********************** Private function definitions ********************** */
 
@@ -117,7 +127,6 @@ UINT8 mem_switches[12];
 */
 UINT8 CheckSwitches()
 {
-  UINT8 sw_changed;				// Flag to indicate if a switch has been pressed
   int i;                  // Loop counter
 
   // Loop through all switches
@@ -131,15 +140,35 @@ UINT8 CheckSwitches()
     if (sw_status != mem_switches[i])
     {
 			// Store last switch status
-      mem_switches[i] = sw_status;
+      mem_switches[i] = !sw_status;
 
 			// If the switch is pressed, set the flag
-      sw_changed = 1;
+      return 1;
     }
   }
 
 	// Return the flag
-  return sw_changed;
+  return 0;
+}
+
+UINT8 ReadSwitch(UINT32 sw)
+{
+    switch (sw)
+    {
+        case 1: return SW1;
+        case 2: return SW2;
+        case 3: return SW3;
+        case 4: return SW4;
+        case 5: return SW5;
+        case 6: return SW6;
+        case 7: return SW7;
+        case 8: return SW8;
+        case 9: return SW8;
+        case 10: return SW10;
+        case 11: return SW11;
+        case 12: return SW12;
+    }
+    return 0;
 }
 
 /**
@@ -160,7 +189,7 @@ UINT8 CheckSwitches()
 UINT8 CheckSwitch(UINT32 sw)
 {
   // If status of switch in swi_to_sw is 0, it means the switch is pressed
-  if (swi_to_sw[sw - 1] != 1)
+  if (ReadSwitch(sw) != 1)
   {
     // Return 1 when the switch is pressed
     return 1;
@@ -186,28 +215,31 @@ UINT8 CheckSwitch(UINT32 sw)
  * @details    The status of the switches in PORTXbits.RXx are inverted 
  *             (0 = pressed, 1 = not pressed)
 */
+
+
 UINT8 CheckSwitchPressedOnce(UINT32 sw)
 {
+    
   // If status of switch in swi_to_sw is 0 AND compared to last state
   // aka If switch has been pressed once
-  if (swi_to_sw[sw - 1] != 1 && mem_switches[sw])
+  if (ReadSwitch(sw) == 1 && mem_switches_pressed[sw] == 0)
   {
     int i;  // Loop counter
     // Wait a delay to make sure switch has settled
     for(i = 0; i < 1000; ++i);
 
     // Store the new state of the switch
-    mem_switches[sw] = 1;
+    mem_switches_pressed[sw] = 1;
 
     // Return 1 because switch has been pressed once
     return 1;
   }
   // Else, if status of switch in swi_to_sw is 1 AND compared to last state
   // aka If switch has been released once
-  else if (swi_to_sw[sw - 1] == 1 && mem_switches[sw])
+  else if (ReadSwitch(sw) == 0 && mem_switches_pressed[sw] == 1)
   {
     // Reset the state of the switch
-    mem_switches[sw] = 0;
+    mem_switches_pressed[sw] = 0;
   }
   // Then return 0 because switch has not been pressed once
   return 0;
@@ -231,66 +263,74 @@ void ProcessSwitches()
 {
   // Display 1 mode
   if (CheckSwitchPressedOnce(5))
-    disp1 = (disp1 + 1) & 4;
+    disp1 = (disp1 + 1) & 0x3;
 
   // Display 2 mode
   // if (CheckSwitchPressedOnce(12))
   //   disp3 = (disp2 + 1) & 4;
 
   // Display 3 mode
+  // if (CheckSwitchPressedOnce(6))
+  //  disp3 = (disp3 + 1) & 4;
   if (CheckSwitchPressedOnce(6))
-    disp3 = (disp3 + 1) & 4;
+    disp3 = (disp3 + 1) & 0x3;
 
 
   // Pitch mode
   if (CheckSwitchPressedOnce(8))
   {
     static UINT64 mode = PITCH_MODE_MANUAL;
-    Can_SendData(0x6A, mode);
+    // CAN_SendData(0x6A, mode);
     mode ^= 1;
   }
 
   // Pitch left
-  if (CheckSwitch(1))
+  // if (CheckSwitch(1))
+  if (SW1 == 0)
   {
-    static UINT64 pitch_left_data = 0x01;
-    CAN_SendData(0x7A, pitch_left_data);
+    static UINT64 pitch_left_data = 0x200;
+    CAN_SendData(0x71, pitch_left_data);
   }
   // Pitch right
-  if (CheckSwitch(10))
+  // if (CheckSwitch(10))
+  if (SW10 == 0)
   {
-    static UINT64 pitch_right_data = 0x200;
-    CAN_SendData(0x7A, pitch_right_data);
+    static UINT64 pitch_right_data = 0x300;
+    CAN_SendData(0x71, pitch_right_data);
   }
   // Pitch stop
-  if (!CheckSwitch(1) && !CheckSwitch(10))
+  // if (!CheckSwitch(1) && !CheckSwitch(10))
+  if (SW1 == 1 && SW10 == 1)
   {
-    static UINT64 pitch_stop_data = 0x00;
-    CAN_SendData(0x7A, pitch_stop_data);
+    static UINT64 pitch_stop_data = 0x100;
+    CAN_SendData(0x71, pitch_stop_data);
   }
 
   // Mast Mode
   if (CheckSwitchPressedOnce(3))
   {
     static UINT8 mode = MAST_MODE_MANUAL;
-    CAN_SendByte(0x6B, mode);
+    // CAN_SendByte(0x6B, mode);
     mode ^= 1;
   }
 
   // Mast left
-  if (CheckSwitch(2))
+  // if (CheckSwitch(2))
+  if (SW2 == 0)
   {
-    CAN_SendFloat(0x7B, 10.0f);
+    CAN_SendData(0x7B, 0x200);
   }
   // Mast right
-  if (CheckSwitch(9))
+  // if (CheckSwitch(9))
+  if (SW9 == 0)
   {
-    CAN_SendFloat(0x7B, -10.0f);
+    CAN_SendData(0x7B, 0x300);
   }
   // Mast stop
-  if (!CheckSwitch(2) && !CheckSwitch(9))
+  // if (!CheckSwitch(2) && !CheckSwitch(9))
+  if (SW2 == 1 && SW9 == 1)
   {
-    CAN_SendFloat(0x7B, 0.0f);
+    // CAN_SendData(0x7B, 0x100);
   }
 
   // ROPS
@@ -334,19 +374,19 @@ void state_machine_exec()
   {
   case STATE_INIT:
   {
-    state_init();
+    state_machine_val = state_init();
     break;
   }
 
   case STATE_STANDBY:
   {
-    state_standby();
+    state_machine_val = state_standby();
     break;
   }
 
   case STATE_ACQ:
   {
-    state_acq();
+    state_machine_val = state_acq();
     break;
   }
 
@@ -364,7 +404,7 @@ void state_machine_exec()
  * 
  * @details    Initialize peripherals, CAN, interrupts, display, etc.
 */
-void state_init()
+UINT32 state_init()
 {
   INTDisableInterrupts();
   
@@ -374,6 +414,9 @@ void state_init()
   EnableInterrupts();
 
   DisplayInit();
+  
+  // UINT32 swi_to_sw2[12] = {SW1, SW2, SW3, SW4, SW5, SW6, SW7, SW8, SW9, SW10, SW11, SW12};
+  // memcpy(swi_to_sw, swi_to_sw2, sizeof(swi_to_sw2[0])*12);
 
   // Set display mode to 0
   disp1 = 0;
@@ -384,7 +427,9 @@ void state_init()
   memset(&mem_switches[0], 0, sizeof(UINT8) * 12);
 
   // Tell Mario volant is ready
-  CAN_SendByte(0x70, 0x42);                                                     // TODO: Send Byte on CAN BUS
+  CAN_SendByte(0x70, 0x42);
+  
+  return STATE_STANDBY;
 }
 
 /**
@@ -392,23 +437,27 @@ void state_init()
  * 
  * @details    Display data, check switches
 */
-void state_standby()
+UINT32 state_standby()
 {
+  DisplayData();
+  
   // Refresh the display every 50ms
-  if (flags.flag_50ms)
+  if (flag_50ms)
   {
     // Reset the flag for the timer
-    flags.flag_50ms = 0;
+    flag_50ms = 0;
 
-    DisplayData();
+    // DisplayData();
   }
 
   // Check switches
   if (CheckSwitches())
   {
     // If a switch has been pressed, go to acquisition state
-    state_machine_val = STATE_ACQ;
+    return STATE_ACQ;
   }
+  
+  return STATE_STANDBY;
 }
 
 /**
@@ -416,11 +465,11 @@ void state_standby()
  * 
  * @details    Process switches, then go back to standby
 */
-void state_acq()
+UINT32 state_acq()
 {
   ProcessSwitches();
   
-  state_machine_val = STATE_STANDBY;
+  return STATE_STANDBY;
 }
 
 /* ***************************** Main function ****************************** */
@@ -432,8 +481,31 @@ void state_acq()
 */
 void main(void)
 {
+    //==============================================================================
+// Following memcopies are used to be able to use the form 
+// Chinook.LibraryX.FunctionX in case the developper wants to see the available
+// functions.
+//==============================================================================
+  memcpy( &Chinook.Port  , &Port  , sizeof ( struct sChinookPort  ) );
+  memcpy( &Chinook.Uart  , &Uart  , sizeof ( struct sChinookUart  ) );
+  memcpy( &Chinook.Pwm   , &Pwm   , sizeof ( struct sChinookPwm   ) );
+  //memcpy( &Chinook.Timer , &Timer , sizeof ( struct sChinookTimer ) );
+  memcpy( &Chinook.Spi   , &Port  , sizeof ( struct sChinookSpi   ) );
+//  memcpy( &Chinook.Wdt   , &Wdt   , sizeof ( struct sChinookWdt   ) );
+//  memcpy( &Chinook.Adc   , &Adc   , sizeof ( struct sChinookAdc   ) );
+  memcpy( &Chinook.Can   , &Can   , sizeof ( struct sChinookCan   ) );
+//  memcpy( &Chinook.I2C   , &I2C   , sizeof ( struct sChinookI2C   ) );
+//  memcpy( &Chinook.Skadi , &I2C   , sizeof ( struct sChinookSkadi ) );
+//  memcpy( &Chinook.InputCapture , &InputCapture , sizeof ( struct sChinookInputCapture ) );
+  
+  DDPCONbits.JTAGEN = 0;
+  SYSTEMConfig(SYS_FREQ, SYS_CFG_WAIT_STATES | SYS_CFG_PCACHE);
+  
   // Initialize the state machine to init
   state_machine_val = STATE_INIT;
+  
+  sensor_data.pitch = 7.8f;
+  sensor_data.mast_angle = 86.7f;
   
   // Loop forever
   while (1)
@@ -441,8 +513,8 @@ void main(void)
     // Execute the state machine
     state_machine_exec();
     
-    int i;  // Loop variable
     // Wait a bit
+    int i;
     for (i = 0; i < 2000; ++i);
   }
 }

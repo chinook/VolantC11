@@ -1,5 +1,7 @@
-build/default/debug/source/Interrupts.o:  \
-source/Interrupts.c  \
+build/default/production/source/Peripherals.o:  \
+source/Peripherals.c  \
+ headers/Peripherals.h  \
+headers/main.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookLib.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookHardwareProfile.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookAdc.h  \
@@ -14,5 +16,4 @@ source/Interrupts.c  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookSkadi.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookUart.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookSpi.h  \
- ../../ChinookLib/ChinookLib.X/headers/ChinookWdt.h  \
-headers/main.h 
+ ../../ChinookLib/ChinookLib.X/headers/ChinookWdt.h 

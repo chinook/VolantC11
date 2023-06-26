@@ -1,6 +1,7 @@
-build/default/debug/source/Interrupts.o:  \
-source/Interrupts.c  \
- ../../ChinookLib/ChinookLib.X/headers/ChinookLib.h  \
+build/default/production/source/CAN_Driver.o:  \
+source/CAN_Driver.c  \
+ headers/CAN_Driver.h  \
+../../ChinookLib/ChinookLib.X/headers/ChinookLib.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookHardwareProfile.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookAdc.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookCan.h  \

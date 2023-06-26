@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <project>                                  
-  <executable name="dist/default/production/Volant.X.production.elf">                 
+  <executable name="dist/default/debug/Volant.X.debug.elf">                 
     <memory name="program">                 
       <units>bytes</units>                 
       <length>531968</length>                 
-      <used>71488</used>                     
-      <free>460480</free>                     
+      <used>69232</used>                     
+      <free>462736</free>                     
     </memory>                              
     <memory name="data">              
       <units>bytes</units>                 
-      <length>131072</length>                 
-      <used>43324</used>                     
-      <free>87748</free>                     
+      <length>131584</length>                 
+      <used>44348</used>                     
+      <free>87236</free>                     
     </memory>                              
   </executable>                            
 </project>                                 

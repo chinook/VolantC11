@@ -1,6 +1,5 @@
 build/default/debug/source/main.o:  \
 source/main.c  \
-headers/Setup.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookLib.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookHardwareProfile.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookAdc.h  \
@@ -16,9 +15,7 @@ headers/Setup.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookUart.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookSpi.h  \
  ../../ChinookLib/ChinookLib.X/headers/ChinookWdt.h  \
-headers/Interrupts.h  \
- headers/Setup.h  \
-headers/StateMachine_Volant.h  \
-headers/Interrupts.h  \
- headers/HardwareProfile.h  \
-headers/StateFunctions.h 
+headers/main.h  \
+ headers/Peripherals.h  \
+headers/CAN_Driver.h  \
+headers/Display.h 

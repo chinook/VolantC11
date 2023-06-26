@@ -153,7 +153,11 @@ typedef struct FlagsData_
   UINT8 flag_rotary_encoder;
 }
 FlagsData;
-extern volatile FlagsData flags;
+// extern volatile FlagsData flags;
+extern volatile UINT8 flag_500ms;
+extern volatile UINT8 flag_50ms;
+extern volatile UINT8 flag_can;
+extern volatile UINT8 flag_rotary_encoder;
 
 // Sensor data struct
 typedef struct SensorData_
@@ -172,6 +176,7 @@ typedef struct SensorData_
   float backplane_current;
   float loadcell;
   float torque;
+  float mast_angle;
 }
 SensorData;
 extern volatile SensorData sensor_data;
@@ -181,5 +186,7 @@ extern volatile disp1;
 extern volatile disp2;
 extern volatile disp3;
 
+
+struct sChinook Chinook; // ChinookLib functions
 
 #endif // _MAIN_H_

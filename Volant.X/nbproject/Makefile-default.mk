@@ -19,7 +19,7 @@ endif
 endif
 
 # Environment
-MKDIR=mkdir -p
+MKDIR=gnumkdir -p
 RM=rm -f 
 MV=mv 
 CP=cp 
@@ -30,12 +30,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 ifeq ($(COMPARE_BUILD), true)
@@ -57,18 +57,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=source/Interrupts.c source/Setup.c source/StateFunctions.c source/StateMachine_Volant.c source/main.c
+SOURCEFILES_QUOTED_IF_SPACED=source/CAN_Driver.c source/Display.c source/Interrupts.c source/Peripherals.c source/main.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/source/Interrupts.o ${OBJECTDIR}/source/Setup.o ${OBJECTDIR}/source/StateFunctions.o ${OBJECTDIR}/source/StateMachine_Volant.o ${OBJECTDIR}/source/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/source/Interrupts.o.d ${OBJECTDIR}/source/Setup.o.d ${OBJECTDIR}/source/StateFunctions.o.d ${OBJECTDIR}/source/StateMachine_Volant.o.d ${OBJECTDIR}/source/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/source/CAN_Driver.o ${OBJECTDIR}/source/Display.o ${OBJECTDIR}/source/Interrupts.o ${OBJECTDIR}/source/Peripherals.o ${OBJECTDIR}/source/main.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/source/CAN_Driver.o.d ${OBJECTDIR}/source/Display.o.d ${OBJECTDIR}/source/Interrupts.o.d ${OBJECTDIR}/source/Peripherals.o.d ${OBJECTDIR}/source/main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/source/Interrupts.o ${OBJECTDIR}/source/Setup.o ${OBJECTDIR}/source/StateFunctions.o ${OBJECTDIR}/source/StateMachine_Volant.o ${OBJECTDIR}/source/main.o
+OBJECTFILES=${OBJECTDIR}/source/CAN_Driver.o ${OBJECTDIR}/source/Display.o ${OBJECTDIR}/source/Interrupts.o ${OBJECTDIR}/source/Peripherals.o ${OBJECTDIR}/source/main.o
 
 # Source Files
-SOURCEFILES=source/Interrupts.c source/Setup.c source/StateFunctions.c source/StateMachine_Volant.c source/main.c
-
+SOURCEFILES=source/CAN_Driver.c source/Display.c source/Interrupts.c source/Peripherals.c source/main.c
 
 
 CFLAGS=
@@ -88,7 +87,7 @@ FIXDEPS=fixDeps
 ifneq ($(INFORMATION_MESSAGE), )
 	@echo $(INFORMATION_MESSAGE)
 endif
-	${MAKE}  -f nbproject/Makefile-default.mk ${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE}  -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=32MX795F512H
 MP_LINKER_FILE_OPTION=
@@ -107,66 +106,66 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/source/Interrupts.o: source/Interrupts.c  .generated_files/flags/default/11d67208e5f301216f20c684f58559c31e395d0c .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/CAN_Driver.o: source/CAN_Driver.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/source" 
+	@${RM} ${OBJECTDIR}/source/CAN_Driver.o.d 
+	@${RM} ${OBJECTDIR}/source/CAN_Driver.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/CAN_Driver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/CAN_Driver.o.d" -o ${OBJECTDIR}/source/CAN_Driver.o source/CAN_Driver.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/source/Display.o: source/Display.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/source" 
+	@${RM} ${OBJECTDIR}/source/Display.o.d 
+	@${RM} ${OBJECTDIR}/source/Display.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/Display.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Display.o.d" -o ${OBJECTDIR}/source/Display.o source/Display.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/source/Interrupts.o: source/Interrupts.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
 	@${RM} ${OBJECTDIR}/source/Interrupts.o.d 
 	@${RM} ${OBJECTDIR}/source/Interrupts.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/Interrupts.o.d" -o ${OBJECTDIR}/source/Interrupts.o source/Interrupts.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${FIXDEPS} "${OBJECTDIR}/source/Interrupts.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Interrupts.o.d" -o ${OBJECTDIR}/source/Interrupts.o source/Interrupts.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/source/Setup.o: source/Setup.c  .generated_files/flags/default/431ded605316f8a22464102c7bb0de08ff3c8956 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/Peripherals.o: source/Peripherals.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/Setup.o.d 
-	@${RM} ${OBJECTDIR}/source/Setup.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/Setup.o.d" -o ${OBJECTDIR}/source/Setup.o source/Setup.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${RM} ${OBJECTDIR}/source/Peripherals.o.d 
+	@${RM} ${OBJECTDIR}/source/Peripherals.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/Peripherals.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Peripherals.o.d" -o ${OBJECTDIR}/source/Peripherals.o source/Peripherals.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/source/StateFunctions.o: source/StateFunctions.c  .generated_files/flags/default/9e918b8e5f6241b5c97a89953e589a801c4e6c4f .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
-	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/StateFunctions.o.d 
-	@${RM} ${OBJECTDIR}/source/StateFunctions.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/StateFunctions.o.d" -o ${OBJECTDIR}/source/StateFunctions.o source/StateFunctions.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
-	
-${OBJECTDIR}/source/StateMachine_Volant.o: source/StateMachine_Volant.c  .generated_files/flags/default/d8143e9c53d0b25473918101648f86275cb13184 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
-	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/StateMachine_Volant.o.d 
-	@${RM} ${OBJECTDIR}/source/StateMachine_Volant.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/StateMachine_Volant.o.d" -o ${OBJECTDIR}/source/StateMachine_Volant.o source/StateMachine_Volant.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
-	
-${OBJECTDIR}/source/main.o: source/main.c  .generated_files/flags/default/62289834747d2367c677e76f68a92799eb6c9141 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/main.o: source/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
 	@${RM} ${OBJECTDIR}/source/main.o.d 
 	@${RM} ${OBJECTDIR}/source/main.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/main.o.d" -o ${OBJECTDIR}/source/main.o source/main.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${FIXDEPS} "${OBJECTDIR}/source/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/main.o.d" -o ${OBJECTDIR}/source/main.o source/main.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 else
-${OBJECTDIR}/source/Interrupts.o: source/Interrupts.c  .generated_files/flags/default/2e5f31a2ba03041bd900b207c5299cb044070444 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/CAN_Driver.o: source/CAN_Driver.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/source" 
+	@${RM} ${OBJECTDIR}/source/CAN_Driver.o.d 
+	@${RM} ${OBJECTDIR}/source/CAN_Driver.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/CAN_Driver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/CAN_Driver.o.d" -o ${OBJECTDIR}/source/CAN_Driver.o source/CAN_Driver.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/source/Display.o: source/Display.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} "${OBJECTDIR}/source" 
+	@${RM} ${OBJECTDIR}/source/Display.o.d 
+	@${RM} ${OBJECTDIR}/source/Display.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/Display.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Display.o.d" -o ${OBJECTDIR}/source/Display.o source/Display.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
+	
+${OBJECTDIR}/source/Interrupts.o: source/Interrupts.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
 	@${RM} ${OBJECTDIR}/source/Interrupts.o.d 
 	@${RM} ${OBJECTDIR}/source/Interrupts.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/Interrupts.o.d" -o ${OBJECTDIR}/source/Interrupts.o source/Interrupts.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${FIXDEPS} "${OBJECTDIR}/source/Interrupts.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Interrupts.o.d" -o ${OBJECTDIR}/source/Interrupts.o source/Interrupts.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/source/Setup.o: source/Setup.c  .generated_files/flags/default/17316bba25a871ddaa7f921bac784b65730f5368 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/Peripherals.o: source/Peripherals.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/Setup.o.d 
-	@${RM} ${OBJECTDIR}/source/Setup.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/Setup.o.d" -o ${OBJECTDIR}/source/Setup.o source/Setup.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${RM} ${OBJECTDIR}/source/Peripherals.o.d 
+	@${RM} ${OBJECTDIR}/source/Peripherals.o 
+	@${FIXDEPS} "${OBJECTDIR}/source/Peripherals.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/Peripherals.o.d" -o ${OBJECTDIR}/source/Peripherals.o source/Peripherals.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
-${OBJECTDIR}/source/StateFunctions.o: source/StateFunctions.c  .generated_files/flags/default/dfa67c441da92cf8153fe4bc5920edb4c027c695 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
-	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/StateFunctions.o.d 
-	@${RM} ${OBJECTDIR}/source/StateFunctions.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/StateFunctions.o.d" -o ${OBJECTDIR}/source/StateFunctions.o source/StateFunctions.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
-	
-${OBJECTDIR}/source/StateMachine_Volant.o: source/StateMachine_Volant.c  .generated_files/flags/default/2418f2a11f98ba0c8bd4a9e4d00314d5ba2b4fd3 .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
-	@${MKDIR} "${OBJECTDIR}/source" 
-	@${RM} ${OBJECTDIR}/source/StateMachine_Volant.o.d 
-	@${RM} ${OBJECTDIR}/source/StateMachine_Volant.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/StateMachine_Volant.o.d" -o ${OBJECTDIR}/source/StateMachine_Volant.o source/StateMachine_Volant.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
-	
-${OBJECTDIR}/source/main.o: source/main.c  .generated_files/flags/default/f02dbc7d57637c26d288d621c5d5b720106b87bb .generated_files/flags/default/778d9843b01a3d0cabe515e69a3d738216c1758e
+${OBJECTDIR}/source/main.o: source/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} "${OBJECTDIR}/source" 
 	@${RM} ${OBJECTDIR}/source/main.o.d 
 	@${RM} ${OBJECTDIR}/source/main.o 
-	${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MP -MMD -MF "${OBJECTDIR}/source/main.o.d" -o ${OBJECTDIR}/source/main.o source/main.c    -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)    
+	@${FIXDEPS} "${OBJECTDIR}/source/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"headers" -I"../../ChinookLib/ChinookLib.X/headers" -MMD -MF "${OBJECTDIR}/source/main.o.d" -o ${OBJECTDIR}/source/main.o source/main.c    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD) 
 	
 endif
 
@@ -179,36 +178,36 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../ChinookLib/ChinookLib.X/dist/default/debug/ChinookLib.X.a  
-	@${MKDIR} ${DISTDIR} 
-	${MP_CC} $(MP_EXTRA_LD_PRE) -g   -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    ../../ChinookLib/ChinookLib.X/dist/default/debug/ChinookLib.X.a      -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)      -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,${DISTDIR}/memoryfile.xml,--allow-multiple-definition 
+dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../ChinookLib/ChinookLib.X/dist/default/debug/ChinookLib.X.a  
+	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PK3=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    ..\..\ChinookLib\ChinookLib.X\dist\default\debug\ChinookLib.X.a      -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)   -mreserve=data@0x0:0x1FC -mreserve=boot@0x1FC02000:0x1FC02FEF -mreserve=boot@0x1FC02000:0x1FC024FF  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__DEBUG=1,-D=__DEBUG_D,--defsym=__MPLAB_DEBUGGER_PK3=1,--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
 	
 else
-${DISTDIR}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../ChinookLib/ChinookLib.X/dist/default/production/ChinookLib.X.a 
-	@${MKDIR} ${DISTDIR} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o ${DISTDIR}/Volant.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    ../../ChinookLib/ChinookLib.X/dist/default/production/ChinookLib.X.a      -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,${DISTDIR}/memoryfile.xml,--allow-multiple-definition 
-	${MP_CC_DIR}/xc32-bin2hex ${DISTDIR}/Volant.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
+dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk  ../../ChinookLib/ChinookLib.X/dist/default/production/ChinookLib.X.a 
+	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}    ..\..\ChinookLib\ChinookLib.X\dist\default\production\ChinookLib.X.a      -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--no-code-in-dinit,--no-dinit-in-serial-mem,-Map="${DISTDIR}/${PROJECTNAME}.${IMAGE_TYPE}.map",--memorysummary,dist/${CND_CONF}/${IMAGE_TYPE}/memoryfile.xml
+	${MP_CC_DIR}\\xc32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/Volant.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} 
 endif
 
 
 # Subprojects
 .build-subprojects:
-	cd ../../ChinookLib/ChinookLib.X && ${MAKE}  -f Makefile CONF=default
+	cd /D ../../ChinookLib/ChinookLib.X && ${MAKE}  -f Makefile CONF=default
 
 
 # Subprojects
 .clean-subprojects:
-	cd ../../ChinookLib/ChinookLib.X && rm -rf "build/default" "dist/default"
+	cd /D ../../ChinookLib/ChinookLib.X && rm -rf "build/default" "dist/default"
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
-	${RM} -r ${OBJECTDIR}
-	${RM} -r ${DISTDIR}
+	${RM} -r build/default
+	${RM} -r dist/default
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl
 
-DEPFILES=$(shell "${PATH_TO_IDE_BIN}"mplabwildcard ${POSSIBLE_DEPFILES})
+DEPFILES=$(shell mplabwildcard ${POSSIBLE_DEPFILES})
 ifneq (${DEPFILES},)
 include ${DEPFILES}
 endif

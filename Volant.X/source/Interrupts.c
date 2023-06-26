@@ -34,7 +34,7 @@ void __ISR(_TIMER_2_VECTOR, T2_INTERRUPT_PRIORITY) Timer2InterruptHandler(void)
   mT2ClearIntFlag();
 
   // Set internal flag
-  flags.flag_50ms = 1;
+  flag_50ms = 1;
 }
 
 /**
@@ -48,7 +48,7 @@ void __ISR(_TIMER_4_VECTOR, T4_INTERRUPT_PRIORITY) Timer4InterruptHandler(void)
   mT4ClearIntFlag();
 
   // Set internal flag
-  flags.flag_500ms = 1;
+  flag_500ms = 1;
 }
 
 /**
@@ -65,9 +65,8 @@ void __ISR(_ADC_VECTOR, ADC_INTERRUPT_PRIO) AdcInterruptHandler(void)
   INTClearFlag(INT_AD1);
 
   // Set internal flag
-  flags.flag_rotary_encoder = 1;
+  flag_rotary_encoder = 1;
 }
-
 
 
 

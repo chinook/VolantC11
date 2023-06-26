@@ -20,7 +20,7 @@
 
 /* ********************* Private variable declarations ********************** */
 
-INT8 Can1MessageFifoArea[CAN_NB_CHANNELS * CAN_BUFFER_SIZE * 
+BYTE Can1MessageFifoArea[CAN_NB_CHANNELS * CAN_BUFFER_SIZE *                    // BYTE type here
                                                   CAN_TX_RX_MESSAGE_SIZE_BYTES];
 
 /* ********************* Private function declarations ********************** */
@@ -44,74 +44,74 @@ void CAN_Init()
   
   
   // Channel 1 - 0x23 would be the GEAR feeback value from a drive board
-   Can.SetChannel(CAN1, CAN_CHANNEL1, 8, RX);
+   Can.SetChannel(CAN1, CAN_CHANNEL1, 8, RX);                                                                           // Old values
    //Can.SetChannelMask(CAN1, CAN_CHANNEL1, CAN_FILTER0, 0x23, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL1, CAN_FILTER0, 0x1, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL1, CAN_FILTER0, 0x1, CAN_FILTER_MASK0,0x7FF);                                    // 1
    
    // Channel 2 - 0x13 would be the PITCH feeback value from a drive board
    Can.SetChannel(CAN1, CAN_CHANNEL2, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL2, CAN_FILTER1, 0x13, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL2, CAN_FILTER1, 0x2, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL2, CAN_FILTER1, 0x2, CAN_FILTER_MASK0,0x7FF);                                    // 0x41
    
    // Channel 3 - Mast Dir
    Can.SetChannel(CAN1, CAN_CHANNEL3, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL3, CAN_FILTER2, 0x52, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL3, CAN_FILTER2, 0x3, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL3, CAN_FILTER2, 0x3, CAN_FILTER_MASK0,0x7FF);                                    // 0x42
    
    // Channel 4 - 0x33 would be the MAST AUTO/MANUAL MODE feeback value from a MAST-drive board
    Can.SetChannel(CAN1, CAN_CHANNEL4, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL4, CAN_FILTER3, 0x55, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL4, CAN_FILTER3, 0x55, CAN_FILTER_MASK0,0x7FF);                                   // 0x55
    //Can.SetChannelMask(CAN1, CAN_CHANNEL4, CAN_FILTER3, 0x4, CAN_FILTER_MASK0,0x7FF);
    
    // Channel 5 - Pitch Algo CAN
    Can.SetChannel(CAN1, CAN_CHANNEL5, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL5, CAN_FILTER4, 0x4, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL5, CAN_FILTER4, 0x4, CAN_FILTER_MASK0,0x7FF);                                    // 0x4
    //Can.SetChannelMask(CAN1, CAN_CHANNEL5, CAN_FILTER4, 0x5, CAN_FILTER_MASK0,0x7FF);
    
    // Channel 6 - 0x21 would be the Wind Turbine RPM value from sensor board
    Can.SetChannel(CAN1, CAN_CHANNEL6, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL6, CAN_FILTER5, 0x21, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL6, CAN_FILTER5, 0x43, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL6, CAN_FILTER5, 0x43, CAN_FILTER_MASK0,0x7FF);                                   // 0x43
    
     // Channel 7 - 0x19 would be the Wind speed value from sensor board
    Can.SetChannel(CAN1, CAN_CHANNEL7, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL7, CAN_FILTER6, 0x19, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL7, CAN_FILTER6, 0x46, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL7, CAN_FILTER6, 0x46, CAN_FILTER_MASK0,0x7FF);                                   // 0x46
    
     // Channel 8 - 0x73 would be the Amp(I) value from the BackPlane
    Can.SetChannel(CAN1, CAN_CHANNEL8, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL8, CAN_FILTER7, 0x73, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL8, CAN_FILTER7, 0x4B, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL8, CAN_FILTER7, 0x4B, CAN_FILTER_MASK0,0x7FF);                                   // 0x8
    
    // Channel 9 - 0x72 would be the Voltage value from the BackPlane
    Can.SetChannel(CAN1, CAN_CHANNEL9, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL9, CAN_FILTER8, 0x72, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL9, CAN_FILTER8, 0x4A, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL9, CAN_FILTER8, 0x4A, CAN_FILTER_MASK0,0x7FF);                                   // 0x9
    
    // Channel 10 - 0x22 would be wheel RPM
    Can.SetChannel(CAN1, CAN_CHANNEL10, 8, RX);
    //Can.SetChannelMask(CAN1, CAN_CHANNEL10, CAN_FILTER9, 0x22, CAN_FILTER_MASK0,0x7FF);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL10, CAN_FILTER9, 0x44, CAN_FILTER_MASK0,0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL10, CAN_FILTER9, 0x44, CAN_FILTER_MASK0,0x7FF);                                  // 0x44
    
    // Channel 11 - Wind Dir
    Can.SetChannel(CAN1, CAN_CHANNEL11, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL11, CAN_FILTER10, 0x45, CAN_FILTER_MASK0, 0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL11, CAN_FILTER10, 0x45, CAN_FILTER_MASK0, 0x7FF);                                // 0x45
    
    // Loadcell
    Can.SetChannel(CAN1, CAN_CHANNEL14, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL14, CAN_FILTER11, 0x48, CAN_FILTER_MASK0, 0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL14, CAN_FILTER11, 0x48, CAN_FILTER_MASK0, 0x7FF);                                // 0x48
    
    // Torque
    Can.SetChannel(CAN1, CAN_CHANNEL15, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL15, CAN_FILTER12, 0x47, CAN_FILTER_MASK0, 0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL15, CAN_FILTER12, 0x47, CAN_FILTER_MASK0, 0x7FF);                                // 0x47
    
    // ROPS cmd = 0x37 from Senstel
    Can.SetChannel(CAN1, CAN_CHANNEL16, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL16, CAN_FILTER13, 0x37, CAN_FILTER_MASK0, 0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL16, CAN_FILTER13, 0x37, CAN_FILTER_MASK0, 0x7FF);                                // 0x37
    
    // Pitch mode feedback
    Can.SetChannel(CAN1, CAN_CHANNEL17, 8, RX);
-   Can.SetChannelMask(CAN1, CAN_CHANNEL17, CAN_FILTER14, 0x4C, CAN_FILTER_MASK0, 0x7FF);
+   Can.SetChannelMask(CAN1, CAN_CHANNEL17, CAN_FILTER14, 0x4C, CAN_FILTER_MASK0, 0x7FF);                                // 0x4C
   
 }
 

@@ -278,9 +278,9 @@ void ProcessSwitches()
 
   // Pitch mode
   if (CheckSwitchPressedOnce(8))
-  {
+  {                                                                             // Old values
     static UINT64 mode = PITCH_MODE_MANUAL;
-    // CAN_SendData(0x6A, mode);
+    // CAN_SendData(0x6A, mode);                                                // 0x33, PITCH_MODE_MANUAL
     mode ^= 1;
   }
 
@@ -289,28 +289,28 @@ void ProcessSwitches()
   if (SW1 == 0)
   {
     static UINT64 pitch_left_data = 0x200;
-    CAN_SendData(0x71, pitch_left_data);
+    CAN_SendData(0x71, pitch_left_data);                                        // 0x71, 0x200
   }
   // Pitch right
   // if (CheckSwitch(10))
   if (SW10 == 0)
   {
     static UINT64 pitch_right_data = 0x300;
-    CAN_SendData(0x71, pitch_right_data);
+    CAN_SendData(0x71, pitch_right_data);                                       // 0x71, 0x300
   }
   // Pitch stop
   // if (!CheckSwitch(1) && !CheckSwitch(10))
   if (SW1 == 1 && SW10 == 1)
   {
     static UINT64 pitch_stop_data = 0x100;
-    CAN_SendData(0x71, pitch_stop_data);
+    CAN_SendData(0x71, pitch_stop_data);                                        // 0x71, 0x100
   }
 
   // Mast Mode
   if (CheckSwitchPressedOnce(3))
   {
     static UINT8 mode = MAST_MODE_MANUAL;
-    // CAN_SendByte(0x6B, mode);
+    // CAN_SendByte(0x6B, mode);                                                // 0x5A, MAST_MODE_MANUAL
     mode ^= 1;
   }
 
